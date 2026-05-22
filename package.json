@@ -4,8 +4,8 @@
   "private": true,
   "description": "Roxstar spin-wheel monorepo. Root scripts delegate to the server package for deploy targets like Render.",
   "scripts": {
-    "build": "cd server && npm install && npm run build",
-    "start": "cd server && npm run start",
+    "build": "cd server && npm install && npx --yes prisma generate",
+    "start": "cd server && npx --yes tsx src/index.ts",
     "postinstall": "echo 'Root install complete. Server deps are installed by the build script.'"
   }
 }

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "build": "prisma generate",
-    "start": "tsx src/index.ts",
+    "build": "npm install && npx --yes prisma generate",
+    "start": "npx --yes tsx src/index.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy"
