@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum WheelStatus {
+  CREATED
+  WAITING
+  RUNNING
+  COMPLETED
+  ABORTED
+}
+
+enum TransactionType {
+  JOIN_FEE
+  REFUND
+  WIN_REWARD
+  ADMIN_REWARD
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  coins     Int      @default(1000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdWheels Wheel[]            @relation("CreatedBy")
+  wonWheels     Wheel[]            @relation("Winner")
+  participations WheelParticipant[]
+  transactions   Transaction[]
+}
+
+model Wheel {
+  id        String      @id @default(uuid())
+  title     String
+  entryFee  Int
+  status    WheelStatus @default(CREATED)
+  startTime DateTime?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  createdBy String
+  creator   User   @relation("CreatedBy", fields: [createdBy], references: [id])
+
+  winnerId String?
+  winner   User?   @relation("Winner", fields: [winnerId], references: [id])
+
+  participants WheelParticipant[]
+}
+
+model WheelParticipant {
+  id         String   @id @default(uuid())
+  wheelId    String
+  userId     String
+  eliminated Boolean  @default(false)
+  joinedAt   DateTime @default(now())
+
+  wheel Wheel @relation(fields: [wheelId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@unique([wheelId, userId])
+}
+
+model Transaction {
+  id           String          @id @default(uuid())
+  userId       String
+  type         TransactionType
+  amount       Int
+  balanceAfter Int
+  description  String
+  createdAt    DateTime        @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Configuration {
+  id               String @id @default(uuid())
+  winnerPercentage Int    @default(70)
+  adminPercentage  Int    @default(20)
+  appPercentage    Int    @default(10)
+  
+  totalWinnerPool  Int    @default(0)
+  totalAdminPool   Int    @default(0)
+  totalAppPool     Int    @default(0)
+
+  updatedAt        DateTime @updatedAt
+}
