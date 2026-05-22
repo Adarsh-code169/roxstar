@@ -1,0 +1,11 @@
+{
+  "name": "roxstar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Roxstar spin-wheel monorepo. Root scripts delegate to the server package for deploy targets like Render.",
+  "scripts": {
+    "build": "cd server && npm install && npm run build",
+    "start": "cd server && npm run start",
+    "postinstall": "echo 'Root install complete. Server deps are installed by the build script.'"
+  }
+}

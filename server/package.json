@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx src/index.ts",
+    "build": "prisma generate",
+    "start": "tsx src/index.ts",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +26,9 @@
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.21.0",
+    "prisma": "^7.8.0",
     "socket.io": "^4.8.3",
+    "tsx": "^4.22.3",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -32,8 +37,6 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.9.1",
-    "prisma": "^7.8.0",
-    "tsx": "^4.22.3",
     "typescript": "^6.0.3"
   }
 }
